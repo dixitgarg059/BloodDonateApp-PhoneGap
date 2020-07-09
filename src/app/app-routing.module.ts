@@ -8,8 +8,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'searchDonor',
     pathMatch: 'full'
+  },
+  {
+    path: 'searchDonor',
+    loadChildren: () => import('./search/search-donor/search-donor.module').then( m => m.SearchDonorPageModule)
   },
 ];
 
