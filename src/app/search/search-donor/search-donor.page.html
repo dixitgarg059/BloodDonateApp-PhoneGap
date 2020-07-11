@@ -60,24 +60,100 @@
         <ion-select interface="action-sheet" placeholder="Select Blood Group" name="bloodGroupDropDown"
           id="bloodGroupDropDown" [(ngModel)]="selectedSearchOptions.BloodGroup">
           <ion-select-option value="A+">A+</ion-select-option>
-          <ion-select-option value="A+">B+</ion-select-option>
-          <ion-select-option value="A+">AB+</ion-select-option>
-          <ion-select-option value="A+">O+</ion-select-option>
-          <ion-select-option value="A+">A-</ion-select-option>
-          <ion-select-option value="A+">B-</ion-select-option>
-          <ion-select-option value="A+">AB-</ion-select-option>
-          <ion-select-option value="A+">O-</ion-select-option>
+          <ion-select-option value="B+">B+</ion-select-option>
+          <ion-select-option value="AB+">AB+</ion-select-option>
+          <ion-select-option value="O+">O+</ion-select-option>
+          <ion-select-option value="A-">A-</ion-select-option>
+          <ion-select-option value="B-">B-</ion-select-option>
+          <ion-select-option value="AB-">AB-</ion-select-option>
+          <ion-select-option value="O-">O-</ion-select-option>
         </ion-select>
       </ion-item>
-
     </ion-list>
 
     <div class="ion-padding">
-      <ion-button slot="start" expand="block" type="submit" class="ion-no-margin">
-        <ion-icon name="search-outline" slot="start"></ion-icon>Search Donors
-      </ion-button>
+      <div *ngIf="!selectedSearchOptions.SearchBtnClicked;else loadingButton">
+        <ion-button slot="start" expand="block" type="submit" class="ion-no-margin">
+          <ion-icon name="search-outline" slot="start"></ion-icon>Search Donors
+        </ion-button>
+      </div>
+      <ng-template #loadingButton>
+        <ion-button expand="block" type="button" disabled class="ion-no-margin">
+          <ion-spinner name="bubbles"></ion-spinner>
+        </ion-button>
+      </ng-template>
     </div>
 
   </form>
+
+  <div *ngIf="selectedSearchOptions.SearchBtnClicked;else searchResultContent">
+    <!-- Skeleton screen -->
+    <div class="ion-padding custom-skeleton">
+      <ion-card>
+        <ion-card-header color="light">
+          <ion-card-title>
+            <ion-row>
+              <ion-col>
+                <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+              </ion-col>
+              <ion-col>
+                <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+              </ion-col>
+            </ion-row>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row>
+            <ion-col>
+              <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+            </ion-col>
+            <ion-col>
+              <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+  <ng-template #searchResultContent>
+    <!-- <div *ngIf="selectedSearchOptions.AvailableDonors.length>0 && selectedSearchOptions.SearchBtnClicked==false"> -->
+    <div *ngIf="selectedSearchOptions.SearchBtnClicked==false">
+      <ion-card *ngFor="let donor of AvailableDonors">
+        <ion-card-header color="danger">
+          <ion-card-title (click)="showDonorDetails(donor)">
+            <ion-row>
+              <ion-col>
+                <ion-icon name="person-outline"></ion-icon> {{donor.DonorName}}
+              </ion-col>
+              <ion-col>
+                <ion-icon name="call-outline"></ion-icon> {{donor.ContactNo}}
+              </ion-col>
+              <!-- <ion-col class="ion-float-right"> -->
+              <ion-icon name="expand-outline"></ion-icon>
+              <!-- </ion-col> -->
+            </ion-row>
+          </ion-card-title>
+          <ion-card-subtitle>
+            <ion-icon name="water-sharp"></ion-icon>Blood Group: {{donor.BloodGroup}}
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row>
+            <ion-col>
+              <ion-icon name="location-outline"></ion-icon> {{donor.State}}, {{donor.City}}
+            </ion-col>
+            <!-- <ion-col>
+              <ion-icon name="calendar-outline"></ion-icon> Last Donated On:<ion-datetime disabled
+                [value]="donor.LastDonatedOn">
+              </ion-datetime>
+            </ion-col> -->
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-template>
+
 </ion-content>
-<ion-alert-controller></ion-alert-controller>
+<ion-alert-controller>
+
+</ion-alert-controller>

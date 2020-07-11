@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>donor-registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+
+  <div *ngIf="angularFireAuth.user | async else registrationTemplate">
+
+  </div>
+
+  <ng-template>
+    <ion-button (click)="LoginUser()">Login</ion-button>
+    <ion-button (click)="SignUpNewUser()">SignUp</ion-button>
+  </ng-template>
+
+
+
+
+
+  <div>
+    <ng-container *ngIf="otpSent==false; else otpContainer">
+      <div class="sec-container">
+        <input [(ngModel)]="userPhoneNo" class="get-input" placeholder="Phone" type="tel">
+        <button (click)="sendOtp()" class="button-press">Get OTP</button>
+      </div>
+    </ng-container>
+    <ng-template #otpContainer>
+      <div class="sec-container">
+        <input [(ngModel)]="otp" class="get-input">
+        <button (click)="signIn()" class="button-press">Login</button>
+      </div>
+    </ng-template>
+    <div id="sign-in-button"></div>
+  </div>
+
+  <div id="recaptcha-container"></div>
+
+
+</ion-content>

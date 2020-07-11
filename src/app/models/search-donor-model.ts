@@ -1,8 +1,11 @@
 
 export interface SearchDonor{
-    Id:number,
-    Name: string,
-    Phone: string,
+    Id:string,
+    DonorName: string,
+    ContactNo: string,
     BloodGroup: string,
-    Address: string,
+    City: string,
+    State: string,
+    LastDonatedDate: string,
+    Email: string
 }

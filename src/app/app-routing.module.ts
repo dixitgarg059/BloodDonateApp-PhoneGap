@@ -8,12 +8,16 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'searchDonor',
+    redirectTo: 'donorRegistration',
     pathMatch: 'full'
   },
   {
     path: 'searchDonor',
     loadChildren: () => import('./search/search-donor/search-donor.module').then( m => m.SearchDonorPageModule)
+  },
+  {
+    path: 'donorRegistration',
+    loadChildren: () => import('./donor/donor-registration/donor-registration.module').then( m => m.DonorRegistrationPageModule)
   },
 ];
 
