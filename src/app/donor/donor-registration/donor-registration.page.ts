@@ -15,6 +15,19 @@ import * as firebaseui from 'firebaseui';
 })
 export class DonorRegistrationPage implements OnInit {
 
+  public statesList: State[];
+  public citiesList: City[];
+  private counter: number = 0;
+  // public AvailableDonors: Observable<SearchDonor[]>;
+  public AvailableDonors: SearchDonor[];
+  public selectedSearchOptions: SelectedSearchOptions = {
+    BloodGroup: '',
+    City: '',
+    PageLoaded: true,
+    State: '',
+    SearchBtnClicked: false,
+  };
+
   userPhoneNo: string = '';
   otpSent: Boolean = false;
   otp: string = '';
@@ -63,4 +76,13 @@ export class DonorRegistrationPage implements OnInit {
     });
 
   }
+}
+
+
+interface SelectedSearchOptions {
+  BloodGroup: string,
+  City: string,
+  PageLoaded: boolean,
+  State: any,
+  SearchBtnClicked: boolean,
 }

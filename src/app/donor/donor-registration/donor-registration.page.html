@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>donor-registration</ion-title>
   </ion-toolbar>
@@ -6,20 +6,13 @@
 
 <ion-content>
 
-
-
   <div *ngIf="angularFireAuth.user | async else registrationTemplate">
-
   </div>
 
   <ng-template>
     <ion-button (click)="LoginUser()">Login</ion-button>
     <ion-button (click)="SignUpNewUser()">SignUp</ion-button>
   </ng-template>
-
-
-
-
 
   <div>
     <ng-container *ngIf="otpSent==false; else otpContainer">
@@ -39,5 +32,87 @@
 
   <div id="recaptcha-container"></div>
 
+
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Donor Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-label position="floating">Your Name</ion-label>
+    <ion-input placeholder="Your Name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Your Mobile No</ion-label>
+    <ion-input placeholder="Your Mobile No"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">State</ion-label>
+    <ion-select interface="action-sheet" placeholder="Select State" (ionChange)="getCities($event)" name="stateDropDown"
+      id="stateDropDown" [(ngModel)]="selectedSearchOptions.State">
+      <ion-select-option *ngFor="let state of statesList" [value]="state.id">{{state.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">City</ion-label>
+    <ion-select interface="action-sheet" placeholder="Select City" name="cityDropDown" id="cityDropDown"
+      [(ngModel)]="selectedSearchOptions.City">
+      <ion-select-option *ngFor="let city of citiesList" [value]="city.name">{{city.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Blood Group</ion-label>
+    <ion-select interface="action-sheet" placeholder="Select Blood Group" name="bloodGroupDropDown"
+      id="bloodGroupDropDown" [(ngModel)]="selectedSearchOptions.BloodGroup">
+      <ion-select-option value="A+">A+</ion-select-option>
+      <ion-select-option value="B+">B+</ion-select-option>
+      <ion-select-option value="AB+">AB+</ion-select-option>
+      <ion-select-option value="O+">O+</ion-select-option>
+      <ion-select-option value="A-">A-</ion-select-option>
+      <ion-select-option value="B-">B-</ion-select-option>
+      <ion-select-option value="AB-">AB-</ion-select-option>
+      <ion-select-option value="O-">O-</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+    <ion-list-header lines="inset">
+      <ion-label>Your Blood Donation Details</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-checkbox checked="false"></ion-checkbox>
+      <ion-label class="ion-padding">Pokémon Yellow</ion-label>
+    </ion-item>
+  </ion-list>
+
+<ion-list>
+  <ion-list-header lines="full">
+    <ion-label>Trending</ion-label>
+  </ion-list-header>
+  <ion-item>
+    <ion-label color="primary">
+      <h1>harry styles</h1>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary">
+      <h1>christmas</h1>
+    </ion-label>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-label color="primary">
+      <h1>falling</h1>
+    </ion-label>
+  </ion-item>
+</ion-list>
 
 </ion-content>
