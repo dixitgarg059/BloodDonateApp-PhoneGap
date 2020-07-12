@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "blood-donation-app",
+  "appId": "com.phonegap.DonateBloodDonateLifeApp",
+  "appName": "com.phonegap.DonateBloodDonateLifeApp",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

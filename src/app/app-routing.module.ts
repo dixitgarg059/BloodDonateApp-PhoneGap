@@ -3,12 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: '',
-    redirectTo: 'donorRegistration',
+    redirectTo: 'searchDonor',
     pathMatch: 'full'
   },
   {
@@ -19,6 +15,10 @@ const routes: Routes = [
     path: 'donorRegistration',
     loadChildren: () => import('./donor/donor-registration/donor-registration.module').then( m => m.DonorRegistrationPageModule)
   },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  }
 ];
 
 @NgModule({
