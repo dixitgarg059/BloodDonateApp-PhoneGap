@@ -8,6 +8,9 @@ import * as firebase from 'firebase';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import * as firebaseui from 'firebaseui';
 
+import { DatePickerModule } from 'ionic4-date-picker';
+import { DatePicker } from '@ionic-native/date-picker/ngx';
+
 @Component({
   selector: 'app-donor-registration',
   templateUrl: './donor-registration.page.html',
@@ -18,7 +21,9 @@ export class DonorRegistrationPage implements OnInit {
   public statesList: State[];
   public citiesList: City[];
   private counter: number = 0;
-
+  public myDate:string;
+  public myTime:string;
+  public myDateNTime:string;
 
   public donorRegistrationDetails: DonorRegistrationDetails = {
     Name: '',
@@ -27,7 +32,9 @@ export class DonorRegistrationPage implements OnInit {
     City: '',
     BloodGroup: '',
     //BloodDonationDetails: { NeverDonated: true, DontDonate: false, LastDonatedOn: false, LastDonatedDate: '' }
-    BloodDonationDetails: [{ checked: false, name: 'NeverDonated' }, { name: 'LastDonatedOn', checked: false }, { name: 'DontDonate', checked: true }]
+    BloodDonationDetails: [{ name: 'NeverDonated', checked: false },
+    { name: 'LastDonatedOn', checked: false },
+    { name: 'DontDonate', checked: true }]
   };
 
   userPhoneNo: string = '';
@@ -37,19 +44,43 @@ export class DonorRegistrationPage implements OnInit {
   user: Observable<firebase.User>;
   confirmationResult: firebase.auth.ConfirmationResult;
 
-  constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth) {
+  constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth, public datePickerModule: DatePickerModule, private datePicker: DatePicker) {
     this.user = angularFireAuth.authState;
     this.otpSent = false;
     this.otp = '';
 
   }
 
+
   ngOnInit() {
     this.statesList = this.donorRegistrationService.getStates();
+    this.donorRegistrationDetails.BloodDonationDetails = [{ name: 'NeverDonated', checked: true },
+    { name: 'LastDonatedOn', checked: false },
+    { name: 'DontDonate', checked: true }];
+
+   
+
+    
   }
 
   ionViewDidEnter() {
+    // this.calendar.createCalendar('MyCalendar').then(
+    //   (msg) => { console.log(msg); },
+    //   (err) => { console.log(err); }
+    // );
     //this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'date',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK,
+      okText:"Save Date",
+      todayText:"Set Today"
+    }).then(
+      date => {
+        this.myDate = date.getDate()+"/"+date.toLocaleString('default', { month: 'long' })+"/"+date.getFullYear();
+      },
+      err => console.log('Error occurred while getting date: ', err)
+    );
   }
 
   getCities(e) {
@@ -67,36 +98,15 @@ export class DonorRegistrationPage implements OnInit {
     //this.angularFireAuth.create
   }
 
-  changeBloodDonationDetails(index:any) {
-    //console.log(event.target.value);
-    console.log(index);
-    //this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = false;
-    //this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = false;
-    //this.donorRegistrationDetails.BloodDonationDetails.DontDonate = false;
+  segmentChanged(ev: any) {
+    console.log('Segment changed', ev);
+  }
 
-    // if(event.target.value == 'NeverDonated') {
-    //   this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = true;
-    //   this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = false;
-    //   this.donorRegistrationDetails.BloodDonationDetails.DontDonate = false;
-    // }
-    // if(event.target.value == 'LastDonatedOn') {
-    //   this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = false;
-    //   this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = true;
-    //   this.donorRegistrationDetails.BloodDonationDetails.DontDonate = false;
-    // }
-    // if(event.target.value == 'DontDonate') {
-    //   this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = false;
-    //   this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = false;
-    //   this.donorRegistrationDetails.BloodDonationDetails.DontDonate = true;
-    // }
-
-    this.donorRegistrationDetails.BloodDonationDetails.forEach((value, counter) => {
-     // console.log(counter);
-      if (index === value) 
-          value.checked = false;
-          //alert('matched');
-    });
-
+  changeBloodDonationDetails(name: any, checked: any, value: any) {
+    //alert(';qw');
+    this.donorRegistrationDetails.BloodDonationDetails[0].checked = false;
+    this.donorRegistrationDetails.BloodDonationDetails[1].checked = false;
+    this.donorRegistrationDetails.BloodDonationDetails[2].checked = false;
   }
 
   sendOtp() {
@@ -120,6 +130,53 @@ export class DonorRegistrationPage implements OnInit {
     });
 
   }
+
+  showDatepicker(){
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'date',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK,
+      okText:"Save Date",
+      todayText:"Set Today"
+    }).then(
+      date => {
+        this.myDate = date.getDate()+"/"+date.toLocaleString('default', { month: 'long' })+"/"+date.getFullYear();
+      },
+      err => console.log('Error occurred while getting date: ', err)
+    );
+  }  
+
+
+  showTimepicker(){
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'time',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_LIGHT,
+      okText:"Save Time",
+      nowText:"Set Now"
+    }).then(
+      time => {
+        this.myTime =  time.getHours()+":"+time.getMinutes();
+      },
+      err => console.log('Error occurred while getting time: ', err)
+    );
+  }  
+
+
+  showDateTimepicker(){
+    this.datePicker.show({
+      date: new Date(),
+      mode: 'datetime',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_TRADITIONAL,
+      doneButtonLabel:"Save Date & Time",
+      is24Hour:false
+    }).then(
+      dateTime => {
+        this.myDateNTime = dateTime.getDate()+"/"+dateTime.toLocaleString('default', { month: 'long' })+"/"+dateTime.getFullYear()+" "+dateTime.getHours()+":"+dateTime.getMinutes();
+      },
+      err => console.log('Error occurred while getting dateTime: ', err)
+    );
+  } 
 }
 
 
