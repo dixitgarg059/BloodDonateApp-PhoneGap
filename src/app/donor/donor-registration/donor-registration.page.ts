@@ -18,14 +18,15 @@ export class DonorRegistrationPage implements OnInit {
   public statesList: State[];
   public citiesList: City[];
   private counter: number = 0;
-  // public AvailableDonors: Observable<SearchDonor[]>;
-  public AvailableDonors: SearchDonor[];
-  public selectedSearchOptions: SelectedSearchOptions = {
-    BloodGroup: '',
-    City: '',
-    PageLoaded: true,
+  
+
+  public donorRegistrationDetails: DonorRegistrationDetails = {
+    Name: '',
+    PhoneNo: '9963599059',
     State: '',
-    SearchBtnClicked: false,
+    City: '',
+    BloodGroup: '',
+    BloodDonationDetails: { NeverDonated: true, DontDonate: false, LastDonatedOn: false, LastDonatedDate:''}
   };
 
   userPhoneNo: string = '';
@@ -39,20 +40,36 @@ export class DonorRegistrationPage implements OnInit {
     this.user = angularFireAuth.authState;
     this.otpSent = false;
     this.otp = '';
-    
+
   }
 
   ngOnInit() {
-
+    this.statesList = this.donorRegistrationService.getStates();
   }
 
   ionViewDidEnter() {
-    this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+    //this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
   }
 
+  getCities(e) {
+    if (e) e.preventDefault();
+    this.counter = 0;
+    let cities: City[] = [];
+    CitiesList[this.donorRegistrationDetails.State].split('|').forEach(cityName => {
+      cities.push({ id: this.counter, name: cityName.trim() });
+      this.counter = this.counter + 1;
+    });
+    this.citiesList = cities;
+  }
 
-  userSignUp(){
+  userSignUp() {
     //this.angularFireAuth.create
+  }
+
+  changeBloodDonationDetails(event:any){
+    //console.log(e);
+    //alert(e);
+    console.log(event.target.value);
   }
 
   sendOtp() {
@@ -79,10 +96,18 @@ export class DonorRegistrationPage implements OnInit {
 }
 
 
-interface SelectedSearchOptions {
-  BloodGroup: string,
-  City: string,
-  PageLoaded: boolean,
+interface DonorRegistrationDetails {
+  Name: string,
+  PhoneNo: string,
   State: any,
-  SearchBtnClicked: boolean,
+  City: string,
+  BloodGroup: string,
+  BloodDonationDetails: BloodDonationDetails
+}
+
+interface BloodDonationDetails{
+  NeverDonated: boolean,
+  LastDonatedOn: boolean,
+  LastDonatedDate: string,
+  DontDonate:boolean
 }
