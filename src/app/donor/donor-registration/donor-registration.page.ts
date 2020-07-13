@@ -18,7 +18,7 @@ export class DonorRegistrationPage implements OnInit {
   public statesList: State[];
   public citiesList: City[];
   private counter: number = 0;
-  
+
 
   public donorRegistrationDetails: DonorRegistrationDetails = {
     Name: '',
@@ -26,7 +26,8 @@ export class DonorRegistrationPage implements OnInit {
     State: '',
     City: '',
     BloodGroup: '',
-    BloodDonationDetails: { NeverDonated: true, DontDonate: false, LastDonatedOn: false, LastDonatedDate:''}
+    //BloodDonationDetails: { NeverDonated: true, DontDonate: false, LastDonatedOn: false, LastDonatedDate: '' }
+    BloodDonationDetails: [{ checked: false, name: 'NeverDonated' }, { name: 'LastDonatedOn', checked: false }, { name: 'DontDonate', checked: true }]
   };
 
   userPhoneNo: string = '';
@@ -66,10 +67,36 @@ export class DonorRegistrationPage implements OnInit {
     //this.angularFireAuth.create
   }
 
-  changeBloodDonationDetails(event:any){
-    //console.log(e);
-    //alert(e);
-    console.log(event.target.value);
+  changeBloodDonationDetails(index:any) {
+    //console.log(event.target.value);
+    console.log(index);
+    //this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = false;
+    //this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = false;
+    //this.donorRegistrationDetails.BloodDonationDetails.DontDonate = false;
+
+    // if(event.target.value == 'NeverDonated') {
+    //   this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = true;
+    //   this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = false;
+    //   this.donorRegistrationDetails.BloodDonationDetails.DontDonate = false;
+    // }
+    // if(event.target.value == 'LastDonatedOn') {
+    //   this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = false;
+    //   this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = true;
+    //   this.donorRegistrationDetails.BloodDonationDetails.DontDonate = false;
+    // }
+    // if(event.target.value == 'DontDonate') {
+    //   this.donorRegistrationDetails.BloodDonationDetails.NeverDonated = false;
+    //   this.donorRegistrationDetails.BloodDonationDetails.LastDonatedOn = false;
+    //   this.donorRegistrationDetails.BloodDonationDetails.DontDonate = true;
+    // }
+
+    this.donorRegistrationDetails.BloodDonationDetails.forEach((value, counter) => {
+     // console.log(counter);
+      if (index === value) 
+          value.checked = false;
+          //alert('matched');
+    });
+
   }
 
   sendOtp() {
@@ -102,12 +129,18 @@ interface DonorRegistrationDetails {
   State: any,
   City: string,
   BloodGroup: string,
-  BloodDonationDetails: BloodDonationDetails
+  //BloodDonationDetails: BloodDonationDetails,
+  BloodDonationDetails: BloodDonationDetails[]
 }
 
-interface BloodDonationDetails{
-  NeverDonated: boolean,
-  LastDonatedOn: boolean,
-  LastDonatedDate: string,
-  DontDonate:boolean
+// interface BloodDonationDetails {
+//   NeverDonated: boolean,
+//   LastDonatedOn: boolean,
+//   LastDonatedDate: string,
+//   DontDonate: boolean
+// }
+
+interface BloodDonationDetails {
+  name: string,
+  checked: boolean
 }
