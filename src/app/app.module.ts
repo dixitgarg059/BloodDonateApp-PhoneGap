@@ -15,27 +15,36 @@ import { SearchDonorService } from './service/search-donor.service';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { DatePickerModule } from 'ionic4-date-picker';
-import { DatePicker } from '@ionic-native/date-picker/ngx'; //
+
+import { NgCalendarModule } from 'ionic2-calendar';
+
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
-    DatePickerModule
+    NgCalendarModule,
+
+  ],
+  exports: [
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    ReactiveFormsModule,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SearchDonorService,
-    { provide: "windowObject", useValue: window},
-    DatePicker
+    { provide: "windowObject", useValue: window }
   ],
   bootstrap: [AppComponent]
 })

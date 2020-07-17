@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+
 
 import { IonicModule } from '@ionic/angular';
 
@@ -8,12 +8,19 @@ import { DonorRegistrationPageRoutingModule } from './donor-registration-routing
 
 import { DonorRegistrationPage } from './donor-registration.page';
 
+import { NgCalendarModule  } from 'ionic2-calendar';
+
+
+import {  ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     IonicModule,
-    DonorRegistrationPageRoutingModule
+    DonorRegistrationPageRoutingModule,
+    NgCalendarModule
   ],
   declarations: [DonorRegistrationPage]
 })
