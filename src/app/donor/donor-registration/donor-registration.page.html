@@ -99,7 +99,7 @@
 
 
       <ion-item lines="none">
-        <ion-segment formControlName="bloodgroup" (ionChange)="segmentChanged($event)">
+        <ion-segment formControlName="bloodDonationOption" (ionChange)="segmentChanged($event)">
           <ion-segment-button value="NeverDonated">
             <ion-icon name="alert-circle-outline"></ion-icon>
             <ion-label>Never Donated</ion-label>
@@ -119,7 +119,7 @@
         <ion-item>
           <ion-label>Select your Last Donated Date</ion-label>
           <ion-datetime displayFormat="DDDD MMM D, YYYY" min="2005" max="2050" (ionChange)="SetLastDonatedDate($event)"
-            formControlName="lastDonatedDate" [value]="lastDonatedDefaultDate"></ion-datetime>
+            formControlName="lastDonatedDate"></ion-datetime>
         </ion-item>
       </ng-template>
       <ng-template [ngIf]="donorRegistrationDetails.BloodDonationOption == 'NoDonationWish'">

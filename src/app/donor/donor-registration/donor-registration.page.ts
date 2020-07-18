@@ -121,8 +121,8 @@ export class DonorRegistrationPage implements OnInit {
   }
 
   SetLastDonatedDate(e) {
-    this.donorRegistrationDetails.BloodDonationOption = new Date(e.target.value).toISOString().substring(0, 10);
-    this.donorLoginForm.get('lastDonatedDate').setValue(this.donorRegistrationDetails.BloodDonationOption, {
+    this.donorRegistrationDetails.LastDonatedDate = new Date(e.target.value).toISOString().substring(0, 10);
+    this.donorLoginForm.get('lastDonatedDate').setValue(this.donorRegistrationDetails.LastDonatedDate, {
       onlyself: true
     });
   }
