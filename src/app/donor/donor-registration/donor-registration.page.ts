@@ -4,10 +4,11 @@ import { CitiesList, City } from 'src/app/models/city';
 import { Observable } from 'rxjs';
 import { DonorRegistrationService } from '../../service/donor-registration.service';
 import * as firebase from 'firebase';
-import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
-import { NgCalendarModule } from 'ionic2-calendar';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { IonDatetime } from '@ionic/angular';
+import { FirebaseUiAuthService } from 'src/app/service/firebase-ui-auth.service';
+import { DonateBlood } from 'src/app/models/donate-blood-model';
 
 @Component({
   selector: 'app-donor-registration',
@@ -17,62 +18,94 @@ import { IonDatetime } from '@ionic/angular';
 
 export class DonorRegistrationPage implements OnInit {
 
+  public user: Observable<firebase.User>;
   public donorLoginForm: FormGroup;
   public statesList: State[];
   public citiesList: City[];
   private counter: number = 0;
-  public isFormSubmitted: boolean = false;
+  public obserVableReceivedData: boolean = false;
 
-  public donorRegistrationDetails: DonorRegistrationDetails = {
-    Name: '',
-    PhoneNo: '',
-    State: 1,
-    City: '',
+  public lastDonatedDefaultDate: any = new Date().toISOString().substring(0, 10);
+
+  public donorRegistrationDetails: DonateBlood = {
+    Id: '',
+    DonorName: '',
+    ContactNo: '+911234567890',
+    State: 0,
+    City: 0,
     BloodGroup: '',
-    BloodDonationDetails: { option: 'NeverDonated', lastDonatedDate: '' }
+    Email: '',
+    LastDonatedDate: '',
+    BloodDonationOption: ''
   };
 
-  //userPhoneNo: string = '';
-  //otpSent: Boolean = false;
-  //otp: string = '';
-  recaptchaVerifier: firebase.auth.RecaptchaVerifier;
-  user: Observable<firebase.User>;
-  confirmationResult: firebase.auth.ConfirmationResult;
-  lastDonatedDefaultDate: any = new Date().toISOString().substring(0, 10);
-  constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth, public formBuilder: FormBuilder) {
+  // userPhoneNo: string = '';
+  // otpSent: Boolean = false;
+  // otp: string = '123456';
+
+  constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth, public formBuilder: FormBuilder, public firebaseUiAuthService: FirebaseUiAuthService) {
     this.user = angularFireAuth.authState;
-    //this.otpSent = false;
-    //this.otp = '';
-
-    this.donorLoginForm = this.formBuilder.group({
-      name: new FormControl('', Validators.compose([Validators.maxLength(30), Validators.required])),
-      phone: new FormControl('', Validators.compose([Validators.maxLength(10), Validators.minLength(10), Validators.pattern('^[0-9]+$'), Validators.required])),
-      state: new FormControl('', Validators.compose([Validators.required])),
-      city: new FormControl('', Validators.compose([Validators.required])),
-      bloodgroup: new FormControl('', Validators.compose([Validators.required])),
-      lastDonatedDate: new FormControl(this.lastDonatedDefaultDate, Validators.compose([Validators.required]))
-      //dob: new FormControl('', Validators.compose([ Validators.maxLength(30), Validators.required ])),
+    angularFireAuth.onAuthStateChanged((user) => {
+      this.DonorLoggedIn(user);
+    }, (error) => {
+      alert(error);
     });
+    this.firebaseUiAuthService.ui.start('#firebaseui-auth-container', this.firebaseUiAuthService.getUiConfig());
+  }
 
+  DonorLoggedIn(user: any) {
+    let donorDetails: DonateBlood = { Id: '', BloodDonationOption: '', DonorName: '', BloodGroup: '', State: 0, City: 0, ContactNo: '', LastDonatedDate: '', Email: '' };
+
+    this.donorRegistrationService.myDetails(user.phoneNumber).subscribe(x => {
+      x.docs.forEach(function (doc) {
+        let data = doc.data();
+        console.log('doc data', data);
+        donorDetails.DonorName = data.DonorName.trim();
+        donorDetails.State = data.State;
+        donorDetails.City = data.City;
+        donorDetails.ContactNo = data.ContactNo.trim();
+        donorDetails.Email = data.Email.trim();
+        donorDetails.BloodGroup = data.BloodGroup.trim();
+        donorDetails.LastDonatedDate = data.LastDonatedDate;
+        donorDetails.BloodDonationOption = data.BloodDonationOption;
+        donorDetails.Id = '123';
+      });
+    }, error => {
+      console.log(error);
+    }, () => {
+      this.donorRegistrationDetails = donorDetails;
+      this.obserVableReceivedData = true;
+      this.donorLoginForm.get('name').patchValue(this.donorRegistrationDetails.DonorName);
+      this.donorLoginForm.get('phone').patchValue(this.donorRegistrationDetails.ContactNo);
+      this.donorLoginForm.get('state').patchValue(this.donorRegistrationService.getStates().filter(x => x.id == this.donorRegistrationDetails.State)[0].id);
+      this.getCities();
+      this.donorLoginForm.get('city').patchValue(this.donorRegistrationDetails.City);
+      this.donorLoginForm.get('bloodgroup').patchValue(this.donorRegistrationDetails.BloodGroup);
+      this.donorLoginForm.get('bloodDonationOption').patchValue(this.donorRegistrationDetails.BloodDonationOption);
+      this.donorLoginForm.get('lastDonatedDate').patchValue(this.donorRegistrationDetails.LastDonatedDate);
+    });
   }
 
   ngOnInit() {
     this.statesList = this.donorRegistrationService.getStates();
-    //this.donorRegistrationDetails.BloodDonationDetails.lastDonatedDate = 'Fri Jul 10 2020 00:00:00 GMT+0300 (Arabian Standard Time)';
-    //this.donorRegistrationDetails.BloodDonationDetails.option = 'LastDonatedOn';
   }
 
   ionViewDidEnter() {
-
-    // this.calendar.createCalendar('MyCalendar').then(
-    //   (msg) => { console.log(msg); },
-    //   (err) => { console.log(err); }
-    // );
-    //this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+    //alert('loading');
+    this.donorLoginForm = this.formBuilder.group({
+      name: new FormControl(this.donorRegistrationDetails.DonorName, Validators.compose([Validators.maxLength(30), Validators.required])),
+      phone: new FormControl(this.donorRegistrationDetails.ContactNo, Validators.compose([Validators.maxLength(13), Validators.minLength(10), Validators.required])),
+      state: new FormControl(this.donorRegistrationDetails.State, Validators.compose([Validators.required])),
+      city: new FormControl(this.donorRegistrationDetails.City, Validators.compose([Validators.required])),
+      bloodgroup: new FormControl(this.donorRegistrationDetails.BloodGroup, Validators.compose([Validators.required])),
+      bloodDonationOption: new FormControl(this.donorRegistrationDetails.BloodDonationOption, Validators.compose([Validators.required])),
+      lastDonatedDate: new FormControl(this.donorRegistrationDetails.LastDonatedDate, Validators.compose([Validators.required]))
+    });
+    console.log('ng on it completed');
   }
 
-  getCities(e) {
-    if (e) e.preventDefault();
+  getCities() {
+    //if (e) e.preventDefault();
     this.counter = 0;
     let cities: City[] = [];
     console.log('states', this.donorRegistrationDetails.State);
@@ -83,40 +116,13 @@ export class DonorRegistrationPage implements OnInit {
     this.citiesList = cities;
   }
 
-  userSignUp() {
-    //this.angularFireAuth.create
-  }
-
-  sendOtp() {
-    //this.angularFireAuth.user
-    /*this.angularFireAuth.signInWithPhoneNumber(this.userPhoneNo, this.recaptchaVerifier).then((confirmationResult) => {
-      this.confirmationResult = confirmationResult;
-      this.otpSent = true;
-    }).catch((err) => {
-      alert('error while loging in');
-      alert(err);
-      console.log(err);
-    });*/
-  }
-
-  signIn() {
-    /*
-    this.confirmationResult.confirm(this.otp).then(user => {
-      console.log(user)
-    }).catch((err) => {
-      alert('after singing in error');
-      alert(err);
-    });
-    */
-  }
-
   segmentChanged($event: any) {
-    this.donorRegistrationDetails.BloodDonationDetails.option = $event.detail.value;
+    this.donorRegistrationDetails.BloodDonationOption = $event.detail.value;
   }
 
   SetLastDonatedDate(e) {
-    this.donorRegistrationDetails.BloodDonationDetails.lastDonatedDate = new Date(e.target.value).toISOString().substring(0, 10);
-    this.donorLoginForm.get('lastDonatedDate').setValue(this.donorRegistrationDetails.BloodDonationDetails.lastDonatedDate, {
+    this.donorRegistrationDetails.BloodDonationOption = new Date(e.target.value).toISOString().substring(0, 10);
+    this.donorLoginForm.get('lastDonatedDate').setValue(this.donorRegistrationDetails.BloodDonationOption, {
       onlyself: true
     });
   }
@@ -124,38 +130,20 @@ export class DonorRegistrationPage implements OnInit {
 
   SaveDonorDetails(e: any) {
     e.preventDefault();
-    this.isFormSubmitted = true;
+    //this.isFormSubmitted = true;
     let me = this;
     //console.log(this.donorLoginForm.value);
     //console.log(this.donorRegistrationDetails.BloodDonationDetails.lastDonatedDate);
     if (me.donorLoginForm.valid) {
       console.log('valided coreclty form');
+      console.log(this.donorRegistrationDetails);
     } else {
       //alert('empty fields');
       console.log('invalid form');
+      console.log(this.donorRegistrationDetails);
     }
     //console.log(this.donorRegistrationDetails);
   }
 }
 
 
-interface DonorRegistrationDetails {
-  Name: string,
-  PhoneNo: string,
-  State: number,
-  City: string,
-  BloodGroup: string,
-  BloodDonationDetails: BloodDonationDetails
-}
-
-// interface BloodDonationDetails {
-//   NeverDonated: boolean,
-//   LastDonatedOn: boolean,
-//   LastDonatedDate: string,
-//   DontDonate: boolean
-// }
-
-interface BloodDonationDetails {
-  option: string,
-  lastDonatedDate: string
-}

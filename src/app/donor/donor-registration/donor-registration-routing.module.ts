@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DonorRegistrationPage } from './donor-registration.page';
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import * as firebaseui from 'firebaseui';
 
 const routes: Routes = [
   {
@@ -14,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DonorRegistrationPageRoutingModule {}
+export class DonorRegistrationPageRoutingModule { }

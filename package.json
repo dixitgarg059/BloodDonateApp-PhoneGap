@@ -12,6 +12,9 @@
     "e2e": "ng e2e"
   },
   "private": true,
+  "config": {
+    "ionic_copy": "./config/copy.config.js"
+  },
   "dependencies": {
     "@angular/common": "~9.1.6",
     "@angular/core": "~9.1.6",
@@ -30,7 +33,6 @@
     "firebase": "^7.16.0",
     "firebaseui": "^4.5.2",
     "firebaseui-angular": "^5.0.0",
-    "ionic2-calendar": "^0.6.6",
     "ionic4-date-picker": "^0.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",

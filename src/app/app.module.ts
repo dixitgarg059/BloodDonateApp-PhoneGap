@@ -19,6 +19,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { NgCalendarModule } from 'ionic2-calendar';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FirebaseUiAuthService } from './service/firebase-ui-auth.service'
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,11 +35,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     NgCalendarModule,
 
   ],
-  exports: [
-    FormsModule,
-    ReactiveFormsModule
-  ],
+  // exports: [
+  //   FormsModule,
+  //   ReactiveFormsModule
+  // ],
   providers: [
+    FirebaseUiAuthService,
     StatusBar,
     SplashScreen,
     ReactiveFormsModule,

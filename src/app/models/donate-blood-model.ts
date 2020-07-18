@@ -1,8 +1,14 @@
 
 export interface DonateBlood{
-    Id:number,
-    Name: string,
-    Phone: string,
+    Id:string,
+    BloodDonationOption: string,
     BloodGroup: string,
-    Address: string,
+    City: number,
+    ContactNo: string,
+    DonorName: string,
+    Email: string,
+    LastDonatedDate: string,
+    State: number,
 }
+
+  

@@ -1,40 +1,3 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>donor-registration</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-  <div *ngIf="angularFireAuth.user | async else registrationTemplate">
-  </div>
-
-  <ng-template>
-    <ion-button (click)="LoginUser()">Login</ion-button>
-    <ion-button (click)="SignUpNewUser()">SignUp</ion-button>
-  </ng-template>
-
-  <div>
-    <ng-container *ngIf="otpSent==false; else otpContainer">
-      <div class="sec-container">
-        <input [(ngModel)]="userPhoneNo" class="get-input" placeholder="Phone" type="tel">
-        <button (click)="sendOtp()" class="button-press">Get OTP</button>
-      </div>
-    </ng-container>
-    <ng-template #otpContainer>
-      <div class="sec-container">
-        <input [(ngModel)]="otp" class="get-input">
-        <button (click)="signIn()" class="button-press">Login</button>
-      </div>
-    </ng-template>
-    <div id="sign-in-button"></div>
-  </div>
-
-  <div id="recaptcha-container"></div>
-
-
-</ion-content> -->
-
 <ion-header>
   <ion-toolbar>
     <ion-title>Donor Registration</ion-title>
@@ -42,114 +5,131 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="donorLoginForm" (ngSubmit)="SaveDonorDetails($event)">
-    <ion-item>
-      <ion-label position="floating">Your Name</ion-label>
-      <ion-input placeholder="Your Name" formControlName="name"></ion-input>
-    </ion-item>
-    <span class="error ion-padding"
-      *ngIf="(donorLoginForm.get('name').touched || donorLoginForm.get('name').dirty) && donorLoginForm.get('name').errors?.required">
-      Name is required.
-    </span>
-    <span class="error ion-padding"
-      *ngIf="(donorLoginForm.get('name').touched || donorLoginForm.get('name').dirty) && donorLoginForm.get('name').errors?.maxlength">
-      only 30 characters long.
-    </span>
-
-    <ion-item>
-      <ion-label position="floating">Your Mobile No</ion-label>
-      <ion-input placeholder="Your Mobile No" formControlName="phone"></ion-input>
-    </ion-item>
-    <span class="error ion-padding"
-      *ngIf="(donorLoginForm.get('phone').touched || donorLoginForm.get('phone').dirty) && donorLoginForm.get('phone').errors?.pattern">
-      only digits allowed
-    </span>
-    <span class="error ion-padding"
-      *ngIf="(donorLoginForm.get('phone').touched || donorLoginForm.get('phone').dirty) && (donorLoginForm.get('phone').errors?.maxlength)">
-      10digits - only indian numbers allowed
-    </span>    
-
-    <ion-item>
-      <ion-label position="floating">State</ion-label>
-      <ion-select interface="action-sheet" placeholder="Select State" (ionChange)="getCities($event)"
-        name="stateDropDown" id="stateDropDown" formControlName="state">
-        <ion-select-option *ngFor="let state of statesList" [value]="state.id">{{state.name}}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <span class="error ion-padding"
-      *ngIf="(donorLoginForm.get('state').touched || donorLoginForm.get('state').dirty) && donorLoginForm.get('state').errors?.required">
-      select state
-    </span>
-
-    <ion-item>
-      <ion-label position="floating">City</ion-label>
-      <ion-select interface="action-sheet" placeholder="Select City" name="cityDropDown" formControlName="city"
-        id="cityDropDown">
-        <ion-select-option *ngFor="let city of citiesList" [value]="city.name">{{city.name}}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <span class="error ion-padding"
-      *ngIf="(donorLoginForm.get('city').touched || donorLoginForm.get('city').dirty) && donorLoginForm.get('city').errors?.required">
-      select city
-    </span>
-
-    <ion-item>
-      <ion-label position="floating">Blood Group</ion-label>
-      <ion-select interface="action-sheet" placeholder="Select Blood Group" name="bloodGroupDropDown"
-        id="bloodGroupDropDown" formControlName="bloodgroup">
-        <ion-select-option value="A+">A+</ion-select-option>
-        <ion-select-option value="B+">B+</ion-select-option>
-        <ion-select-option value="AB+">AB+</ion-select-option>
-        <ion-select-option value="O+">O+</ion-select-option>
-        <ion-select-option value="A-">A-</ion-select-option>
-        <ion-select-option value="B-">B-</ion-select-option>
-        <ion-select-option value="AB-">AB-</ion-select-option>
-        <ion-select-option value="O-">O-</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <span class="error ion-padding"
-      *ngIf="(donorLoginForm.get('bloodgroup').touched || donorLoginForm.get('bloodgroup').dirty) && donorLoginForm.get('bloodgroup').errors?.required">
-      select blood group
-    </span>
-
-    <ion-item>
-      <ion-label position="floating">Blood Donation Details</ion-label>
-      <p class="ion-padding-end"></p>
-    </ion-item>
-
-
-    <ion-item lines="none">
-      <ion-segment [value]="this.donorRegistrationDetails.BloodDonationDetails.option"
-        (ionChange)="segmentChanged($event)">
-        <ion-segment-button value="NeverDonated">
-          <ion-icon name="alert-circle-outline"></ion-icon>
-          <ion-label>Never Donated</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="LastDonatedOn">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <ion-label>Last Donated On</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="NoDonationWish">
-          <ion-icon name="close-circle-outline"></ion-icon>
-          <ion-label>Donot wish to Donate</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-    </ion-item>
-    <br>
-    <ng-template [ngIf]="donorRegistrationDetails.BloodDonationDetails.option == 'LastDonatedOn'" id="calendarControl">
+  <div *ngIf="!(user | async)">
+    <ion-grid>
+      <ion-row>
+        <ion-col></ion-col>
+        <ion-col>
+          <ion-label>SignIn using Your Phone</ion-label>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div id="firebaseui-auth-container"></div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div *ngIf="(user | async) && obserVableReceivedData == true">
+    <form [formGroup]="donorLoginForm" (ngSubmit)="SaveDonorDetails($event)">
       <ion-item>
-        <ion-label>Select your Last Donated Date</ion-label>
-        <ion-datetime displayFormat="DDDD MMM D, YYYY" min="2005" max="2050" (ionChange)="SetLastDonatedDate($event)"
-          formControlName="lastDonatedDate" [value]="lastDonatedDefaultDate"></ion-datetime>
+        <ion-label position="floating">Your Name</ion-label>
+        <ion-input placeholder="Your Name" formControlName="name"></ion-input>
       </ion-item>
-    </ng-template>
-    <ng-template [ngIf]="donorRegistrationDetails.BloodDonationDetails.option == 'NoDonationWish'">
-      <ion-label>We will not show ur details in blood results</ion-label>
-    </ng-template>
-    <ion-button type="submit" expand="block" [disabled]="!donorLoginForm.valid">
-      <ion-icon name="water-outline"></ion-icon>Save My Details
-    </ion-button>
-  </form>
+      <span class="error ion-padding"
+        *ngIf="(donorLoginForm.get('name').touched || donorLoginForm.get('name').dirty) && donorLoginForm.get('name').errors?.required">
+        Name is required.
+      </span>
+      <span class="error ion-padding"
+        *ngIf="(donorLoginForm.get('name').touched || donorLoginForm.get('name').dirty) && donorLoginForm.get('name').errors?.maxlength">
+        only 30 characters long.
+      </span>
+
+      <ion-item>
+        <ion-label position="floating">Your Mobile No</ion-label>
+        <ion-input placeholder="Your Mobile No" formControlName="phone"></ion-input>
+      </ion-item>
+      <span class="error ion-padding"
+        *ngIf="(donorLoginForm.get('phone').touched || donorLoginForm.get('phone').dirty) && donorLoginForm.get('phone').errors?.pattern">
+        only digits allowed
+      </span>
+      <span class="error ion-padding"
+        *ngIf="(donorLoginForm.get('phone').touched || donorLoginForm.get('phone').dirty) && (donorLoginForm.get('phone').errors?.maxlength)">
+        10digits - only indian numbers allowed
+      </span>
+
+      <ion-item>
+        <ion-label position="floating">State</ion-label>
+        <ion-select interface="action-sheet" placeholder="Select State" (ionChange)="getCities()" name="stateDropDown"
+          id="stateDropDown" formControlName="state">
+          <ion-select-option *ngFor="let state of statesList" [value]="state.id">{{state.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <span class="error ion-padding"
+        *ngIf="(donorLoginForm.get('state').touched || donorLoginForm.get('state').dirty) && donorLoginForm.get('state').errors?.required">
+        Select State
+      </span>
+
+      <ion-item>
+        <ion-label position="floating">City</ion-label>
+        <ion-select interface="action-sheet" placeholder="Select City" name="cityDropDown" formControlName="city"
+          id="cityDropDown">
+          <ion-select-option *ngFor="let city of citiesList" [value]="city.id">{{city.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <span class="error ion-padding"
+        *ngIf="(donorLoginForm.get('city').touched || donorLoginForm.get('city').dirty) && donorLoginForm.get('city').errors?.required">
+        Select City
+      </span>
+
+      <ion-item>
+        <ion-label position="floating">Blood Group</ion-label>
+        <ion-select interface="action-sheet" placeholder="Select Blood Group" name="bloodGroupDropDown"
+          id="bloodGroupDropDown" formControlName="bloodgroup">
+          <ion-select-option value="A+">A+</ion-select-option>
+          <ion-select-option value="B+">B+</ion-select-option>
+          <ion-select-option value="AB+">AB+</ion-select-option>
+          <ion-select-option value="O+">O+</ion-select-option>
+          <ion-select-option value="A-">A-</ion-select-option>
+          <ion-select-option value="B-">B-</ion-select-option>
+          <ion-select-option value="AB-">AB-</ion-select-option>
+          <ion-select-option value="O-">O-</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <span class="error ion-padding"
+        *ngIf="(donorLoginForm.get('bloodgroup').touched || donorLoginForm.get('bloodgroup').dirty) && donorLoginForm.get('bloodgroup').errors?.required">
+        select blood group
+      </span>
+
+      <ion-item>
+        <ion-label position="floating">Blood Donation Details</ion-label>
+        <p class="ion-padding-end"></p>
+      </ion-item>
+
+
+      <ion-item lines="none">
+        <ion-segment formControlName="bloodgroup" (ionChange)="segmentChanged($event)">
+          <ion-segment-button value="NeverDonated">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <ion-label>Never Donated</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="LastDonatedOn">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <ion-label>Last Donated On</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="NoDonationWish">
+            <ion-icon name="close-circle-outline"></ion-icon>
+            <ion-label>Donot wish to Donate</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+      <br>
+      <ng-template [ngIf]="donorRegistrationDetails.BloodDonationOption == 'LastDonatedOn'" id="calendarControl">
+        <ion-item>
+          <ion-label>Select your Last Donated Date</ion-label>
+          <ion-datetime displayFormat="DDDD MMM D, YYYY" min="2005" max="2050" (ionChange)="SetLastDonatedDate($event)"
+            formControlName="lastDonatedDate" [value]="lastDonatedDefaultDate"></ion-datetime>
+        </ion-item>
+      </ng-template>
+      <ng-template [ngIf]="donorRegistrationDetails.BloodDonationOption == 'NoDonationWish'">
+        <ion-label>We will not show ur details in blood results</ion-label>
+      </ng-template>
+      <ion-button type="submit" expand="block" [disabled]="!donorLoginForm.valid">
+        <ion-icon name="water-outline"></ion-icon>Save My Details
+      </ion-button>
+    </form>
+  </div>
 </ion-content>
 <ion-footer class="ion-no-border ion-justify-content-center">
   <p style="text-align: center;">All rights reserved</p>
