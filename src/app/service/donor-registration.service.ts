@@ -44,22 +44,31 @@ export class DonorRegistrationService extends LocationsService {
     //return dot;
   }
 
-  SaveMyDetails(donorObj: DonateBlood) {
-    let returnValue:any;
-    if (donorObj.Id != null || donorObj.Id != undefined) {
-      returnValue = this.angularFireStore.collection<DonateBlood>('Donors').doc(donorObj.Id).update(donorObj).then(()=>{
+  UpdateMyDetails(donorObj: DonateBlood): Promise<void> {
+
+     return this.angularFireStore.collection<DonateBlood>('Donors').doc(donorObj.Id).update(donorObj);
+
+     /*
+     .then(() => {
         return 'success';
-      }, err=>{
+      }, err => {
         return err;
+      });s
+     */
+  }
+
+  AddMyDetails(donorObj: DonateBlood): Promise<DocumentReference> {
+    return this.angularFireStore.collection<DonateBlood>('Donors').add(donorObj);
+
+    /*
+    .then(function (docRef) {
+      console.log("Document written with ID: ", docRef.id);
+    })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
       });
-    }
-    else {
-      returnValue = this.angularFireStore.collection<DonateBlood>('Donors').add(donorObj).then(()=>{
-        return 'success'
-      }, err=>{
-        return err;
-      });
-    }
+
+  }    */
   }
 }
 

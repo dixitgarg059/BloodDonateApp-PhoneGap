@@ -110,7 +110,8 @@ export class DonorRegistrationPage implements OnInit {
     this.counter = 0;
     let cities: City[] = [];
     console.log('states', this.donorRegistrationDetails.State);
-    CitiesList[this.donorRegistrationDetails.State].split('|').forEach(cityName => {
+    console.log(this.donorLoginForm.get('state').value);
+    CitiesList[this.donorLoginForm.get('state').value].split('|').forEach(cityName => {
       cities.push({ id: this.counter, name: cityName.trim() });
       this.counter = this.counter + 1;
     });
@@ -136,25 +137,41 @@ export class DonorRegistrationPage implements OnInit {
     //console.log(this.donorLoginForm.value);
     //console.log(this.donorRegistrationDetails.BloodDonationDetails.lastDonatedDate);
     if (me.donorLoginForm.valid) {
-
-      this.donorRegistrationDetails.DonorName =  this.donorLoginForm.get('name').value;
-      this.donorRegistrationDetails.ContactNo =  this.donorLoginForm.get('phone').value;
-      this.donorRegistrationDetails.State =  this.donorLoginForm.get('state').value;
-      this.donorRegistrationDetails.City =  this.donorLoginForm.get('city').value;
-      this.donorRegistrationDetails.BloodGroup =  this.donorLoginForm.get('bloodgroup').value;
-      this.donorRegistrationDetails.BloodDonationOption =  this.donorLoginForm.get('bloodDonationOption').value;
+      console.log('my id:', this.donorRegistrationDetails.Id);
+      this.donorRegistrationDetails.DonorName = this.donorLoginForm.get('name').value;
+      this.donorRegistrationDetails.ContactNo = this.donorLoginForm.get('phone').value;
+      this.donorRegistrationDetails.State = this.donorLoginForm.get('state').value;
+      this.donorRegistrationDetails.City = this.donorLoginForm.get('city').value;
+      this.donorRegistrationDetails.BloodGroup = this.donorLoginForm.get('bloodgroup').value;
+      this.donorRegistrationDetails.BloodDonationOption = this.donorLoginForm.get('bloodDonationOption').value;
       this.donorRegistrationDetails.LastDonatedDate = this.donorLoginForm.get('lastDonatedDate').value;
 
-      let reus = this.donorRegistrationService.SaveMyDetails(this.donorRegistrationDetails);
-      console.log('valided coreclty form', reus);
-      console.log(this.donorRegistrationDetails);
+      if (this.donorRegistrationDetails.Id != '') {
+        console.log('upadte:', this.donorRegistrationDetails);
+        this.donorRegistrationService.UpdateMyDetails(this.donorRegistrationDetails).then(() => {
+          alert('details updated');
+        }).finally(() => {
+          alert('update details finally');
+        });
+        return;
+      }
+      else {
+        console.log('add details:', this.donorRegistrationDetails);
+        this.donorRegistrationService.AddMyDetails(this.donorRegistrationDetails).then((x) => {
+          alert('details added');
+        }).finally(() => {
+          alert('add details finally');
+        });
+        return;
+      }
 
     } else {
+      //invalid form, alert user
       //alert('empty fields');
       console.log('invalid form');
+      this.donorLoginForm.markAsDirty();
       console.log(this.donorRegistrationDetails);
     }
-    //console.log(this.donorRegistrationDetails);
   }
 }
 
