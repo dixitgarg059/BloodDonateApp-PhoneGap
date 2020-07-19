@@ -9,6 +9,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FirebaseUiAuthService } from 'src/app/service/firebase-ui-auth.service';
 import { DonateBlood } from 'src/app/models/donate-blood-model';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-donor-registration',
@@ -24,6 +25,7 @@ export class DonorRegistrationPage implements OnInit {
   public citiesList: City[];
   private counter: number = 0;
   public obserVableReceivedData: boolean = false;
+  public savingDetails: boolean = false;
 
   public lastDonatedDefaultDate: any = new Date().toISOString().substring(0, 10);
 
@@ -43,20 +45,20 @@ export class DonorRegistrationPage implements OnInit {
   // otpSent: Boolean = false;
   // otp: string = '123456';
 
-  constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth, public formBuilder: FormBuilder, public firebaseUiAuthService: FirebaseUiAuthService) {
+  constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth, public formBuilder: FormBuilder, public firebaseUiAuthService: FirebaseUiAuthService, public toastController: ToastController) {
     this.user = angularFireAuth.authState;
     angularFireAuth.onAuthStateChanged((user) => {
-      this.DonorLoggedIn(user);
+      this.DonorLoggedIn(user.phoneNumber);
     }, (error) => {
       alert(error);
     });
     this.firebaseUiAuthService.ui.start('#firebaseui-auth-container', this.firebaseUiAuthService.getUiConfig());
   }
 
-  DonorLoggedIn(user: any) {
+  DonorLoggedIn(phoneNumber: any) {
     let donorDetails: DonateBlood = { Id: '', BloodDonationOption: '', DonorName: '', BloodGroup: '', State: 0, City: 0, ContactNo: '', LastDonatedDate: '', Email: '' };
-
-    this.donorRegistrationService.GetMyDetails(user.phoneNumber).subscribe(x => {
+    this.savingDetails = true;
+    this.donorRegistrationService.GetMyDetails(phoneNumber).subscribe(x => {
       x.docs.forEach(function (doc) {
         let data = doc.data();
         console.log('doc data', data);
@@ -82,8 +84,25 @@ export class DonorRegistrationPage implements OnInit {
       this.getCities();
       this.donorLoginForm.get('city').patchValue(this.donorRegistrationDetails.City);
       this.donorLoginForm.get('bloodgroup').patchValue(this.donorRegistrationDetails.BloodGroup);
-      this.donorLoginForm.get('bloodDonationOption').patchValue(this.donorRegistrationDetails.BloodDonationOption);
-      this.donorLoginForm.get('lastDonatedDate').patchValue(this.donorRegistrationDetails.LastDonatedDate);
+
+      if (this.donorRegistrationDetails.BloodDonationOption == '') {
+        this.donorRegistrationDetails.BloodDonationOption = 'NeverDonated';
+        this.donorLoginForm.get('bloodDonationOption').patchValue(this.donorRegistrationDetails.BloodDonationOption);
+      }
+      else {
+        this.donorLoginForm.get('bloodDonationOption').patchValue(this.donorRegistrationDetails.BloodDonationOption);
+      }
+
+      if (this.donorRegistrationDetails.LastDonatedDate != '') {
+        this.donorLoginForm.get('lastDonatedDate').patchValue(this.donorRegistrationDetails.LastDonatedDate);
+      }
+      else {
+        this.donorRegistrationDetails.LastDonatedDate = this.lastDonatedDefaultDate;
+        this.donorLoginForm.get('lastDonatedDate').patchValue(this.donorRegistrationDetails.LastDonatedDate);
+      }
+
+      this.savingDetails = false;
+
     });
   }
 
@@ -129,6 +148,23 @@ export class DonorRegistrationPage implements OnInit {
     });
   }
 
+  async presentSuccessToast() {
+    const toast = await this.toastController.create({
+      message: 'Your details have been saved.',
+      duration: 2000,
+      color: 'success'
+    });
+    toast.present();
+  }
+
+  async presentFailureToast() {
+    const toast = await this.toastController.create({
+      message: 'Unable to save details.',
+      duration: 2000,
+      color: 'danger'
+    });
+    toast.present();
+  }
 
   SaveDonorDetails(e: any) {
     e.preventDefault();
@@ -137,6 +173,7 @@ export class DonorRegistrationPage implements OnInit {
     //console.log(this.donorLoginForm.value);
     //console.log(this.donorRegistrationDetails.BloodDonationDetails.lastDonatedDate);
     if (me.donorLoginForm.valid) {
+      this.savingDetails = true;
       console.log('my id:', this.donorRegistrationDetails.Id);
       this.donorRegistrationDetails.DonorName = this.donorLoginForm.get('name').value;
       this.donorRegistrationDetails.ContactNo = this.donorLoginForm.get('phone').value;
@@ -149,18 +186,29 @@ export class DonorRegistrationPage implements OnInit {
       if (this.donorRegistrationDetails.Id != '') {
         console.log('upadte:', this.donorRegistrationDetails);
         this.donorRegistrationService.UpdateMyDetails(this.donorRegistrationDetails).then(() => {
-          alert('details updated');
+          //alert('details updated');
+        }).catch((err) => {
+          this.presentFailureToast();
+          console.log('err:', err);
         }).finally(() => {
-          alert('update details finally');
+          this.savingDetails = false;
+          this.presentSuccessToast();
+          this.DonorLoggedIn(this.donorRegistrationDetails.ContactNo);
         });
         return;
       }
       else {
         console.log('add details:', this.donorRegistrationDetails);
         this.donorRegistrationService.AddMyDetails(this.donorRegistrationDetails).then((x) => {
-          alert('details added');
+          //alert('details added');
+        }).catch((err) => {
+          this.presentFailureToast();
+          console.log('err:', err);
         }).finally(() => {
-          alert('add details finally');
+          this.savingDetails = false;
+          this.presentSuccessToast();
+          console.log('user contact no:', this.donorRegistrationDetails.ContactNo);
+          this.DonorLoggedIn(this.donorRegistrationDetails.ContactNo);
         });
         return;
       }

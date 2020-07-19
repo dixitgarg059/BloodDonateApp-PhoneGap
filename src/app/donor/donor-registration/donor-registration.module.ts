@@ -10,8 +10,8 @@ import { DonorRegistrationPage } from './donor-registration.page';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
-
 import {  ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 
 @NgModule({
   imports: [

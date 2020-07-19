@@ -125,9 +125,21 @@
       <ng-template [ngIf]="donorRegistrationDetails.BloodDonationOption == 'NoDonationWish'">
         <ion-label>We will not show ur details in blood results</ion-label>
       </ng-template>
-      <ion-button type="submit" expand="block" [disabled]="!donorLoginForm.valid">
-        <ion-icon name="water-outline"></ion-icon>Save My Details
-      </ion-button>
+     
+
+      <div class="ion-padding">
+        <div *ngIf="!savingDetails;else loadingButton">
+          <ion-button type="submit" expand="block" [disabled]="!donorLoginForm.valid">
+            <ion-icon name="water-outline"></ion-icon>Save My Details
+          </ion-button>
+        </div>
+        <ng-template #loadingButton>
+          <ion-button expand="block" type="button" disabled class="ion-no-margin">
+            <ion-spinner name="bubbles"></ion-spinner>
+          </ion-button>
+        </ng-template>
+      </div>
+
     </form>
   </div>
 </ion-content>
