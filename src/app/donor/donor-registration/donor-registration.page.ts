@@ -66,7 +66,8 @@ export class DonorRegistrationPage implements OnInit {
         donorDetails.DonorName = data.DonorName.trim();
         donorDetails.State = data.State;
         donorDetails.City = data.City;
-        donorDetails.ContactNo = data.ContactNo.trim();
+        donorDetails.ContactNo = phoneNumber;
+        //donorDetails.ContactNo = data.ContactNo.trim();
         donorDetails.Email = data.Email.trim();
         donorDetails.BloodGroup = data.BloodGroup.trim();
         donorDetails.LastDonatedDate = data.LastDonatedDate;
@@ -76,10 +77,11 @@ export class DonorRegistrationPage implements OnInit {
     }, error => {
       console.log(error);
     }, () => {
+      console.log('ContactNo:', this.donorRegistrationDetails.ContactNo);
       this.donorRegistrationDetails = donorDetails;
       this.obserVableReceivedData = true;
       this.donorLoginForm.get('name').patchValue(this.donorRegistrationDetails.DonorName);
-      this.donorLoginForm.get('phone').patchValue(this.donorRegistrationDetails.ContactNo);
+      this.donorLoginForm.get('phone').patchValue(phoneNumber);
       this.donorLoginForm.get('state').patchValue(this.donorRegistrationService.getStates().filter(x => x.id == this.donorRegistrationDetails.State)[0].id);
       this.getCities();
       this.donorLoginForm.get('city').patchValue(this.donorRegistrationDetails.City);
