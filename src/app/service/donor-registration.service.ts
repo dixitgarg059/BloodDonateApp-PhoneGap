@@ -19,7 +19,7 @@ export class DonorRegistrationService extends LocationsService {
     this.user = firebaseAuth.authState;
   }
 
-  myDetails(phoneNo: string): Observable<firestore.QuerySnapshot<firestore.DocumentData>> {
+  GetMyDetails(phoneNo: string): Observable<firestore.QuerySnapshot<firestore.DocumentData>> {
     let dot: DonateBlood = { Id: '', BloodDonationOption: '', DonorName: '', BloodGroup: '', State: 0, City: 0, ContactNo: '', LastDonatedDate: '', Email: '' };
     // this.angularFireStore.collection<DonateBlood>('Donors', ref => ref.where('ContactNo', '==', phoneNo)).get().subscribe((x) => {
     //   x.docs.forEach(function (doc) {
@@ -42,6 +42,24 @@ export class DonorRegistrationService extends LocationsService {
     return this.angularFireStore.collection<DonateBlood>('Donors', ref => ref.where('ContactNo', '==', phoneNo)).get();
     //console.log('data before returning', dot);
     //return dot;
+  }
+
+  SaveMyDetails(donorObj: DonateBlood) {
+    let returnValue:any;
+    if (donorObj.Id != null || donorObj.Id != undefined) {
+      returnValue = this.angularFireStore.collection<DonateBlood>('Donors').doc(donorObj.Id).update(donorObj).then(()=>{
+        return 'success';
+      }, err=>{
+        return err;
+      });
+    }
+    else {
+      returnValue = this.angularFireStore.collection<DonateBlood>('Donors').add(donorObj).then(()=>{
+        return 'success'
+      }, err=>{
+        return err;
+      });
+    }
   }
 }
 

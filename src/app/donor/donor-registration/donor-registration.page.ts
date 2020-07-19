@@ -56,10 +56,11 @@ export class DonorRegistrationPage implements OnInit {
   DonorLoggedIn(user: any) {
     let donorDetails: DonateBlood = { Id: '', BloodDonationOption: '', DonorName: '', BloodGroup: '', State: 0, City: 0, ContactNo: '', LastDonatedDate: '', Email: '' };
 
-    this.donorRegistrationService.myDetails(user.phoneNumber).subscribe(x => {
+    this.donorRegistrationService.GetMyDetails(user.phoneNumber).subscribe(x => {
       x.docs.forEach(function (doc) {
         let data = doc.data();
         console.log('doc data', data);
+        console.log('doc id:', doc.id);
         donorDetails.DonorName = data.DonorName.trim();
         donorDetails.State = data.State;
         donorDetails.City = data.City;
@@ -68,7 +69,7 @@ export class DonorRegistrationPage implements OnInit {
         donorDetails.BloodGroup = data.BloodGroup.trim();
         donorDetails.LastDonatedDate = data.LastDonatedDate;
         donorDetails.BloodDonationOption = data.BloodDonationOption;
-        donorDetails.Id = '123';
+        donorDetails.Id = doc.id;
       });
     }, error => {
       console.log(error);
@@ -135,8 +136,19 @@ export class DonorRegistrationPage implements OnInit {
     //console.log(this.donorLoginForm.value);
     //console.log(this.donorRegistrationDetails.BloodDonationDetails.lastDonatedDate);
     if (me.donorLoginForm.valid) {
-      console.log('valided coreclty form');
+
+      this.donorRegistrationDetails.DonorName =  this.donorLoginForm.get('name').value;
+      this.donorRegistrationDetails.ContactNo =  this.donorLoginForm.get('phone').value;
+      this.donorRegistrationDetails.State =  this.donorLoginForm.get('state').value;
+      this.donorRegistrationDetails.City =  this.donorLoginForm.get('city').value;
+      this.donorRegistrationDetails.BloodGroup =  this.donorLoginForm.get('bloodgroup').value;
+      this.donorRegistrationDetails.BloodDonationOption =  this.donorLoginForm.get('bloodDonationOption').value;
+      this.donorRegistrationDetails.LastDonatedDate = this.donorLoginForm.get('lastDonatedDate').value;
+
+      let reus = this.donorRegistrationService.SaveMyDetails(this.donorRegistrationDetails);
+      console.log('valided coreclty form', reus);
       console.log(this.donorRegistrationDetails);
+
     } else {
       //alert('empty fields');
       console.log('invalid form');
