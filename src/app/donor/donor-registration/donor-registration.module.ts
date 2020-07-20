@@ -8,8 +8,6 @@ import { DonorRegistrationPageRoutingModule } from './donor-registration-routing
 
 import { DonorRegistrationPage } from './donor-registration.page';
 
-import { NgCalendarModule  } from 'ionic2-calendar';
-
 import {  ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
@@ -19,8 +17,7 @@ import {  ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule,
     IonicModule,
-    DonorRegistrationPageRoutingModule,
-    NgCalendarModule
+    DonorRegistrationPageRoutingModule
   ],
   declarations: [DonorRegistrationPage]
 })

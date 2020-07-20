@@ -16,7 +16,6 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
-import { NgCalendarModule } from 'ionic2-calendar';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FirebaseUiAuthService } from './service/firebase-ui-auth.service'
@@ -31,14 +30,9 @@ import { FirebaseUiAuthService } from './service/firebase-ui-auth.service'
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    NgCalendarModule,
+    AngularFireModule.initializeApp(environment.firebase)
 
   ],
-  // exports: [
-  //   FormsModule,
-  //   ReactiveFormsModule
-  // ],
   providers: [
     FirebaseUiAuthService,
     StatusBar,
