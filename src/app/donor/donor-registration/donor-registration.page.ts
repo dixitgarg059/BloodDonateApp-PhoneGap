@@ -46,13 +46,16 @@ export class DonorRegistrationPage implements OnInit {
   // otp: string = '123456';
 
   constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth, public formBuilder: FormBuilder, public firebaseUiAuthService: FirebaseUiAuthService, public toastController: ToastController) {
+    this.firebaseUiAuthService.ui.start('#firebaseui-auth-container', this.firebaseUiAuthService.getUiConfig());
     this.user = angularFireAuth.authState;
+    console.log('this.user:', this.user);
     angularFireAuth.onAuthStateChanged((user) => {
-      this.DonorLoggedIn(user.phoneNumber);
+      if (user != null) {
+        this.DonorLoggedIn(user.phoneNumber);
+      }
     }, (error) => {
       alert(error);
     });
-    this.firebaseUiAuthService.ui.start('#firebaseui-auth-container', this.firebaseUiAuthService.getUiConfig());
   }
 
   DonorLoggedIn(phoneNumber: any) {
@@ -110,10 +113,6 @@ export class DonorRegistrationPage implements OnInit {
 
   ngOnInit() {
     this.statesList = this.donorRegistrationService.getStates();
-  }
-
-  ionViewDidEnter() {
-    //alert('loading');
     this.donorLoginForm = this.formBuilder.group({
       name: new FormControl(this.donorRegistrationDetails.DonorName, Validators.compose([Validators.maxLength(30), Validators.required])),
       phone: new FormControl(this.donorRegistrationDetails.ContactNo, Validators.compose([Validators.maxLength(13), Validators.minLength(10), Validators.required])),
@@ -123,7 +122,11 @@ export class DonorRegistrationPage implements OnInit {
       bloodDonationOption: new FormControl(this.donorRegistrationDetails.BloodDonationOption, Validators.compose([Validators.required])),
       lastDonatedDate: new FormControl(this.donorRegistrationDetails.LastDonatedDate, Validators.compose([Validators.required]))
     });
-    console.log('ng on it completed');
+  }
+
+  ionViewDidEnter() {
+    //alert('loading');
+
   }
 
   getCities() {
