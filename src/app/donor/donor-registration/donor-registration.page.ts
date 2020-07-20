@@ -46,16 +46,7 @@ export class DonorRegistrationPage implements OnInit {
   // otp: string = '123456';
 
   constructor(public donorRegistrationService: DonorRegistrationService, public angularFireAuth: AngularFireAuth, public formBuilder: FormBuilder, public firebaseUiAuthService: FirebaseUiAuthService, public toastController: ToastController) {
-    this.firebaseUiAuthService.ui.start('#firebaseui-auth-container', this.firebaseUiAuthService.getUiConfig());
-    this.user = angularFireAuth.authState;
-    console.log('this.user:', this.user);
-    angularFireAuth.onAuthStateChanged((user) => {
-      if (user != null) {
-        this.DonorLoggedIn(user.phoneNumber);
-      }
-    }, (error) => {
-      alert(error);
-    });
+    
   }
 
   DonorLoggedIn(phoneNumber: any) {
@@ -126,7 +117,16 @@ export class DonorRegistrationPage implements OnInit {
 
   ionViewDidEnter() {
     //alert('loading');
-
+    this.firebaseUiAuthService.ui.start('#firebaseui-auth-container', this.firebaseUiAuthService.getUiConfig());
+    this.user = this.angularFireAuth.authState;
+    console.log('this.user:', this.user);
+    this.angularFireAuth.onAuthStateChanged((user) => {
+      if (user != null) {
+        this.DonorLoggedIn(user.phoneNumber);
+      }
+    }, (error) => {
+      alert(error);
+    });
   }
 
   getCities() {
