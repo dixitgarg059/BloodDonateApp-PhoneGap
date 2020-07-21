@@ -1,0 +1,19 @@
+ion-content, ion-menu, ion-list-header, ion-icon{
+    --ion-background-color:#fe616a;
+    --color:#ffffff;
+}
+
+ion-app{
+    --ion-background-color:#fe616a;
+    //color: #fff !important;
+    --ion-color-primary-contrast: #ffffff;
+    --color:#ffffff;
+}
+
+ion-item, ion-router-outlet{
+    --color:#ffffff;
+}
+
+ion-list, ion-label{
+    --color:#ffffff;
+}

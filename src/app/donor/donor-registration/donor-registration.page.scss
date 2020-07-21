@@ -1,12 +1,18 @@
 
 
-div.monthview-container {
-    height: 1em !important;
-}
-.invalid {
-    border: 1px solid #ea6153;
-}
-.error {
- color: red;
+// div.monthview-container {
+//     height: 1em !important;
+// }
+// .invalid {
+//     border: 1px solid #ea6153;
+// }
+// .error {
+//  color: red;
  
+// }
+
+ion-content, ion-select, ion-select-option, ion-list, ion-button, ion-item, ion-title, ion-menu-button, ion-ripple-effect, ion-footer {
+    --ion-background-color:#fe616a;
+    --color:#ffffff;
 }
+
