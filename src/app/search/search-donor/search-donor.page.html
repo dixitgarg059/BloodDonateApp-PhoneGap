@@ -62,7 +62,7 @@
         <ion-label>City</ion-label>
         <ion-select interface="action-sheet" placeholder="Select City" name="cityDropDown" id="cityDropDown"
           [(ngModel)]="selectedSearchOptions.City">
-          <ion-select-option *ngFor="let city of citiesList" [value]="city.name">{{city.name}}</ion-select-option>
+          <ion-select-option *ngFor="let city of citiesList" [value]="city.id">{{city.name}}</ion-select-option>
         </ion-select>
       </ion-item>
 
@@ -151,7 +151,7 @@
         <ion-card-content>
           <ion-row>
             <ion-col>
-              <ion-icon name="location-outline"></ion-icon> {{donor.State}}, {{donor.City}}
+              <ion-icon name="location-outline"></ion-icon> {{statesList[donor.State].name}}, {{citiesList[donor.City].name}}
             </ion-col>
             <!-- <ion-col>
               <ion-icon name="calendar-outline"></ion-icon> Last Donated On:<ion-datetime disabled

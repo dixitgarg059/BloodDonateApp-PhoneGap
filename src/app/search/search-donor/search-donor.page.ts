@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { SearchDonorService } from '../../service/search-donor.service';
+import { SearchDonorService } from 'src/app/service/search-donor.service';
 import { SearchDonor } from 'src/app/models/search-donor-model';
-import { State } from '../../models/state';
+import { State } from 'src/app/models/state';
 import { CitiesList, City } from 'src/app/models/city';
 import { DonorDetailsPage } from './donor-details-page';
 import { Observable } from 'rxjs';
@@ -61,11 +61,10 @@ export class SearchDonorPage implements OnInit {
     if (e) e.preventDefault();
     this.selectedSearchOptions.SearchBtnClicked = true;
     this.selectedSearchOptions.PageLoaded = false;
+    console.log('State:', this.selectedSearchOptions.State, 'City:', this.selectedSearchOptions.City, 'BloodGroup:', this.selectedSearchOptions.BloodGroup);
     if (this.selectedSearchOptions.State !== '' && this.selectedSearchOptions.City !== '' && this.selectedSearchOptions.BloodGroup != '') {
-      //this.selectedSearchOptions.AvailableDonors = this.searchDonorService.searchDonors();
-      this.searchDonorService.searchDonors(this.statesList[this.selectedSearchOptions.State].name, this.selectedSearchOptions.City, this.selectedSearchOptions.BloodGroup).then(donors => {
+      this.searchDonorService.searchDonors(this.selectedSearchOptions.State, this.selectedSearchOptions.City, this.selectedSearchOptions.BloodGroup).then(donors => {
         this.AvailableDonors = donors;
-        //alert(donors.length);
         this.selectedSearchOptions.SearchBtnClicked = false;
       }, reason => {
         console.log(reason);
