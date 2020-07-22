@@ -1,31 +1,25 @@
-// /* Set the placeholder color and opacity */
-// ion-select::part(placeholder) {
-//     color: #20a08a;
-//     opacity: 1;
-//   }
-
-//   /* Set the text color */
-// ion-select::part(text) {
-//     color: #545ca7;
-//     width: 15px;
-//   }
-
-//   ion-select {
-//     width: 100%;
-  
-//     justify-content: center;
-//   }
-
 
 ion-content, ion-select, ion-select-option, ion-list, ion-button, ion-item, ion-title, ion-menu-button, form, ion-ripple-effect  {
     --ion-background-color:#fe616a;
-    --color:#ffffff;
+    color:#ffffff;
+    --ion-font-color:#ffffff;
 }
 
-ion-item, ion-router-outlet{
-    --color:#ffffff;
+ion-item, ion-router-outlet, ion-card{
+    color:#ffffff;
+    --ion-font-color:#ffffff;
 }
 
 ion-list, ion-label{
-    --color:#ffffff;
+    color:#ffffff;
+    --ion-font-color:#ffffff;
+}
+
+ion-button{
+    --ion-font-color: --ion-color-light-tint;
+
+}
+
+.custom-options{
+    color:#ffffff !important; 
 }

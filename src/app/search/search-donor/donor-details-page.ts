@@ -4,7 +4,8 @@ import { SearchDonor } from '../../models/search-donor-model';
 
 @Component({
     selector: 'modal-page',
-    templateUrl: 'donor-details-page.html'
+    templateUrl: 'donor-details-page.html',
+    styleUrls: ['./donor-details-page.scss']
 })
 
 export class DonorDetailsPage {

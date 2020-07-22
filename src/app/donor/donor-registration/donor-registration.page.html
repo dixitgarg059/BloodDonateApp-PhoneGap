@@ -96,24 +96,24 @@
       </span>
 
       <ion-item>
-        <ion-label position="floating">Blood Donation Details</ion-label>
+        <ion-label position="floating">Your Previous Blood Donation Details</ion-label>
         <p class="ion-padding-end"></p>
       </ion-item>
 
 
       <ion-item lines="none">
-        <ion-segment formControlName="bloodDonationOption" (ionChange)="segmentChanged($event)">
+        <ion-segment color="medium" formControlName="bloodDonationOption" (ionChange)="segmentChanged($event)">
           <ion-segment-button value="NeverDonated">
             <ion-icon name="alert-circle-outline"></ion-icon>
             <ion-label>Never Donated</ion-label>
           </ion-segment-button>
           <ion-segment-button value="LastDonatedOn">
             <ion-icon name="calendar-outline"></ion-icon>
-            <ion-label>Last Donated On</ion-label>
+            <ion-label>Donated On</ion-label>
           </ion-segment-button>
           <ion-segment-button value="NoDonationWish">
             <ion-icon name="close-circle-outline"></ion-icon>
-            <ion-label>Donot wish to Donate</ion-label>
+            <ion-label>Opt Out</ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-item>
@@ -126,13 +126,13 @@
         </ion-item>
       </ng-template>
       <ng-template [ngIf]="donorRegistrationDetails.BloodDonationOption == 'NoDonationWish'">
-        <ion-label>We will not show ur details in blood results</ion-label>
+        <ion-label><cite>Your details will not be shown in search results</cite></ion-label>
       </ng-template>
-     
+
 
       <div class="ion-padding">
         <div *ngIf="!savingDetails;else loadingButton">
-          <ion-button type="submit" expand="block" [disabled]="!donorLoginForm.valid">
+          <ion-button color="medium" type="submit" expand="block" [disabled]="!donorLoginForm.valid">
             <ion-icon name="water-outline"></ion-icon>Save My Details
           </ion-button>
         </div>
@@ -146,6 +146,7 @@
     </form>
   </div>
 </ion-content>
-<ion-footer class="ion-no-border ion-justify-content-center" style="background-color: #fe616a !important; color: #ffff !important;">
+<ion-footer class="ion-no-border ion-justify-content-center"
+  style="background-color: #fe616a !important; color: #ffff !important;">
   <p style="text-align: center; background-color: #fe616a; color: #ffff;">All rights reserved</p>
 </ion-footer>

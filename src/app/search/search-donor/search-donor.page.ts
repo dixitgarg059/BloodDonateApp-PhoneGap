@@ -13,20 +13,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./search-donor.page.scss'],
 })
 export class SearchDonorPage implements OnInit {
-  //private searchingOn:boolean = false;
-  //private searchDonorsList: SearchDonor[] = [];
+  public noDonorsFound: boolean = false;
   public statesList: State[];
   public citiesList: City[];
   private counter: number = 0;
-  // public AvailableDonors: Observable<SearchDonor[]>;
-  public AvailableDonors: SearchDonor[];
+  public AvailableDonors: SearchDonor[] = [];
   public selectedSearchOptions: SelectedSearchOptions = {
     BloodGroup: '',
-    City: '',
+    City: 0,
     PageLoaded: true,
-    State: '',
+    State: 0,
     SearchBtnClicked: false,
   };
+
   constructor(private searchDonorService: SearchDonorService, private modalController: ModalController) { }
 
 
@@ -59,27 +58,28 @@ export class SearchDonorPage implements OnInit {
 
   searchBloodDonorsClick(e: Event) {
     if (e) e.preventDefault();
-    this.selectedSearchOptions.SearchBtnClicked = true;
-    this.selectedSearchOptions.PageLoaded = false;
-    console.log('State:', this.selectedSearchOptions.State, 'City:', this.selectedSearchOptions.City, 'BloodGroup:', this.selectedSearchOptions.BloodGroup);
-    if (this.selectedSearchOptions.State !== '' && this.selectedSearchOptions.City !== '' && this.selectedSearchOptions.BloodGroup != '') {
+    //console.log('State:', this.selectedSearchOptions.State, 'City:', this.selectedSearchOptions.City, 'BloodGroup:', this.selectedSearchOptions.BloodGroup);
+    if (this.selectedSearchOptions.State !== 0 && this.selectedSearchOptions.City !== 0 && this.selectedSearchOptions.BloodGroup != '') {
+      this.selectedSearchOptions.SearchBtnClicked = true;
       this.searchDonorService.searchDonors(this.selectedSearchOptions.State, this.selectedSearchOptions.City, this.selectedSearchOptions.BloodGroup).then(donors => {
         this.AvailableDonors = donors;
-        this.selectedSearchOptions.SearchBtnClicked = false;
+        this.noDonorsFound = this.AvailableDonors.length > 0;
       }, reason => {
         console.log(reason);
         this.AvailableDonors = [];
+        this.noDonorsFound = true;
+      }).finally(() => {
         this.selectedSearchOptions.SearchBtnClicked = false;
+        this.noDonorsFound = this.AvailableDonors.length <= 0;
       });
     }
-
   }
 }
 
 interface SelectedSearchOptions {
   BloodGroup: string,
-  City: string,
+  City: number,
   PageLoaded: boolean,
-  State: any,
+  State: number,
   SearchBtnClicked: boolean,
 }

@@ -68,8 +68,9 @@
 
       <ion-item>
         <ion-label>Blood Group</ion-label>
-        <ion-select interface="action-sheet" placeholder="Select Blood Group" name="bloodGroupDropDown"
-          id="bloodGroupDropDown" [(ngModel)]="selectedSearchOptions.BloodGroup">
+        <ion-select interface="action-sheet" class="custom-options" placeholder="Select Blood Group"
+          name="bloodGroupDropDown" id="bloodGroupDropDown" [(ngModel)]="selectedSearchOptions.BloodGroup">
+          <ion-select-option value="">Select Blood Group</ion-select-option>
           <ion-select-option value="A+">A+</ion-select-option>
           <ion-select-option value="B+">B+</ion-select-option>
           <ion-select-option value="AB+">AB+</ion-select-option>
@@ -84,7 +85,7 @@
 
     <div class="ion-padding">
       <div *ngIf="!selectedSearchOptions.SearchBtnClicked;else loadingButton">
-        <ion-button slot="start" expand="block" type="submit" class="ion-no-margin">
+        <ion-button slot="start" color="medium" expand="block" type="submit" class="ion-no-margin">
           <ion-icon name="search-outline" slot="start"></ion-icon>Search Donors
         </ion-button>
       </div>
@@ -129,8 +130,8 @@
   <ng-template #searchResultContent>
     <!-- <div *ngIf="selectedSearchOptions.AvailableDonors.length>0 && selectedSearchOptions.SearchBtnClicked==false"> -->
     <div *ngIf="selectedSearchOptions.SearchBtnClicked==false">
-      <ion-card *ngFor="let donor of AvailableDonors">
-        <ion-card-header color="danger">
+      <ion-card color="white" *ngFor="let donor of AvailableDonors">
+        <ion-card-header>
           <ion-card-title (click)="showDonorDetails(donor)">
             <ion-row>
               <ion-col>
@@ -151,7 +152,8 @@
         <ion-card-content>
           <ion-row>
             <ion-col>
-              <ion-icon name="location-outline"></ion-icon> {{statesList[donor.State].name}}, {{citiesList[donor.City].name}}
+              <ion-icon name="location-outline"></ion-icon> {{statesList[donor.State].name}},
+              {{citiesList[donor.City].name}}
             </ion-col>
             <!-- <ion-col>
               <ion-icon name="calendar-outline"></ion-icon> Last Donated On:<ion-datetime disabled
@@ -161,6 +163,10 @@
           </ion-row>
         </ion-card-content>
       </ion-card>
+    </div>
+
+    <div *ngIf="noDonorsFound == true && selectedSearchOptions.SearchBtnClicked==false">
+      <ion-label class="ion-padding">Sorry, No Donors Found</ion-label>
     </div>
   </ng-template>
 
