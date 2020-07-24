@@ -132,7 +132,7 @@
     <div *ngIf="selectedSearchOptions.SearchBtnClicked==false">
       <ion-card color="white" *ngFor="let donor of AvailableDonors">
         <ion-card-header>
-          <ion-card-title (click)="showDonorDetails(donor)">
+          <ion-card-title (click)="showDonorDetails(donor, statesList[donor.State].name, citiesList[donor.City].name)">
             <ion-row>
               <ion-col>
                 <ion-icon name="person-outline"></ion-icon> {{donor.DonorName}}

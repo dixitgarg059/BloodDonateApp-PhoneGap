@@ -7,7 +7,8 @@
         </ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="closeDetailsPage()">
-                <h6>Close<ion-icon name="close-circle-outline"></ion-icon></h6>
+                <h6>Close<ion-icon name="close-circle-outline"></ion-icon>
+                </h6>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
@@ -77,7 +78,7 @@
                     <ion-label>Address:</ion-label>
                 </ion-col>
                 <ion-col>
-                    <ion-label>{{donorDetails.State}}, {{donorDetails.City}}</ion-label>
+                    <ion-label>{{state}}, {{city}}</ion-label>
                 </ion-col>
             </ion-row>
         </ion-item>
@@ -87,7 +88,7 @@
                     <ion-label>Last Donated On:</ion-label>
                 </ion-col>
                 <ion-col>
-                    <ion-label>{{donorDetails.LastDonatedDate}}</ion-label>
+                    <ion-label>{{donateDetails}}</ion-label>
                 </ion-col>
             </ion-row>
         </ion-item>

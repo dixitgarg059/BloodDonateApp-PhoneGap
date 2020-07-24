@@ -29,13 +29,15 @@ export class SearchDonorPage implements OnInit {
   constructor(private searchDonorService: SearchDonorService, private modalController: ModalController) { }
 
 
-  async showDonorDetails(donor: SearchDonor) {
+  async showDonorDetails(donor: SearchDonor, selectedState: string, selectedCity: string) {
 
     const modal = await this.modalController.create({
       component: DonorDetailsPage,
       cssClass: 'my-custom-class',
       componentProps: {
         'donorDetails': donor,
+        'state': selectedState,
+        'city': selectedCity
       }
     });
     return await modal.present();
@@ -62,7 +64,9 @@ export class SearchDonorPage implements OnInit {
     if (this.selectedSearchOptions.State !== 0 && this.selectedSearchOptions.City !== 0 && this.selectedSearchOptions.BloodGroup != '') {
       this.selectedSearchOptions.SearchBtnClicked = true;
       this.searchDonorService.searchDonors(this.selectedSearchOptions.State, this.selectedSearchOptions.City, this.selectedSearchOptions.BloodGroup).then(donors => {
-        this.AvailableDonors = donors;
+        this.AvailableDonors = donors.filter(x => {
+          return x.BloodDonationOption != 'NoDonationWish';
+        });
         this.noDonorsFound = this.AvailableDonors.length > 0;
       }, reason => {
         console.log(reason);

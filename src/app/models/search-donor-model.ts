@@ -7,5 +7,6 @@ export interface SearchDonor{
     City: string,
     State: string,
     LastDonatedDate: string,
-    Email: string
+    Email: string,
+    BloodDonationOption: string
 }

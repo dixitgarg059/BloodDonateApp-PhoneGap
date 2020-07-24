@@ -36,7 +36,8 @@ export class SearchDonorService extends LocationsService {
         City: data.City,
         State: data.State,
         ContactNo: data.ContactNo,
-        Email: data.Email
+        Email: data.Email,
+        BloodDonationOption: data.BloodDonationOption
       }
       myDonorList.push(donorDe);
     });
