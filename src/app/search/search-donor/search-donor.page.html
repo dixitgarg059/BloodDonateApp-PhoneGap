@@ -10,7 +10,7 @@
         </ion-avatar>
         <ion-label>Search Blood Donors</ion-label>
       </ion-item>
-      </ion-list>
+    </ion-list>
   </ion-toolbar>
 </ion-header>
 
@@ -105,9 +105,6 @@
               <ion-col>
                 <ion-icon name="person-outline"></ion-icon> {{donor.DonorName}}
               </ion-col>
-              <ion-col>
-                <ion-icon name="call-outline"></ion-icon> {{donor.ContactNo}}
-              </ion-col>
               <!-- <ion-col class="ion-float-right"> -->
               <ion-icon name="expand-outline"></ion-icon>
               <!-- </ion-col> -->
@@ -118,17 +115,18 @@
           </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <ion-row>
-            <ion-col>
-              <ion-icon name="location-outline"></ion-icon> {{statesList[donor.State].name}},
-              {{citiesList[donor.City].name}}
-            </ion-col>
-            <!-- <ion-col>
+          <ion-item>
+            <ion-icon name="call-outline"></ion-icon> {{donor.ContactNo}}
+          </ion-item>
+          <ion-item>
+            <ion-icon name="location-outline"></ion-icon> {{statesList[donor.State].name}},
+            {{citiesList[donor.City].name}}
+          </ion-item>
+          <!-- <ion-col>
               <ion-icon name="calendar-outline"></ion-icon> Last Donated On:<ion-datetime disabled
                 [value]="donor.LastDonatedOn">
               </ion-datetime>
             </ion-col> -->
-          </ion-row>
         </ion-card-content>
       </ion-card>
     </div>
@@ -139,6 +137,10 @@
   </ng-template>
 
 </ion-content>
-<ion-alert-controller>
+<ion-footer class="ion-justify-content-center" style="background-color: #fe616a !important; color: #ffff !important;">
+  <p style="text-align: center; background-color: #fe616a; color: #ffff;">All India Payam-E-Insaniyat
+    Forum.<br>&copy;&nbsp;All Rights Reserved.</p>
+</ion-footer>
+<!-- <ion-alert-controller>
 
-</ion-alert-controller>
+</ion-alert-controller> -->

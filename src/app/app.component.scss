@@ -17,3 +17,9 @@ ion-item, ion-router-outlet{
 ion-list, ion-label{
     --color:#ffffff;
 }
+
+h1, p, div, li, ion-icon {
+    --ion-background-color:#fe616a;
+    color:#ffffff;
+    --ion-font-color:#ffffff;
+}
