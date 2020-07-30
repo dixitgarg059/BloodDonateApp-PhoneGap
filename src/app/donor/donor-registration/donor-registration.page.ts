@@ -32,7 +32,7 @@ export class DonorRegistrationPage implements OnInit {
   public donorRegistrationDetails: DonateBlood = {
     Id: '',
     DonorName: '',
-    ContactNo: '+911234567890',
+    ContactNo: '',
     State: 0,
     City: 0,
     BloodGroup: '',
