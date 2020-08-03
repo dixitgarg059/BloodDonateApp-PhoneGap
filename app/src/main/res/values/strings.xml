@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DonateBlood-DonateLifeApp</string>
+    <string name="title_activity_main">DonateBlood-DonateLifeApp</string>
+    <string name="package_name">DonateBlood-DonateLifeApp</string>
+	<!--<string name="package_name">com.phonegap.DonateBloodDonateLifeApp</string> -->
+    <string name="custom_url_scheme">com.phonegap.DonateBloodDonateLifeApp</string>
+</resources>
+<!--
+<resources>
+    <string name="app_name">DonateBlood-DonateLifeApp</string>
+    <string name="title_activity_main">com.phonegap.DonateBloodDonateLifeApp</string>
+    <string name="package_name">DonateBlood-DonateLifeApp</string>
+	<string name="package_name">com.phonegap.DonateBloodDonateLifeApp</string> 
+    <string name="custom_url_scheme">com.phonegap.DonateBloodDonateLifeApp</string>
+</resources>
+-->

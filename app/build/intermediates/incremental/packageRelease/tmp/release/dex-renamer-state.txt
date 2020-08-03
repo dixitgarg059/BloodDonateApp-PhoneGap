@@ -1,0 +1,4 @@
+#Mon Aug 03 10:38:43 AST 2020
+base.0=E\:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\build\\intermediates\\dex\\release\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
