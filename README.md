@@ -32,16 +32,16 @@ Version to update for every release:
 E:\Learning-Projects\ionic-crashCourse\blood-donate-app\BloodDonateApp-PhoneGap\android\app
 
 Commands:
-Npx cao open android
-Npx cap add android
-Ionic build prod --android
-Ionic platform add android
-Ionic build android --release
-Npx cap copy
+-Npx cap open android;
+-Npx cap add android;
+-Ionic build prod --android;
+-Ionic platform add android;
+-Ionic build android --release;
+-Npx cap copy;
 
-Ionic start
-Ionic serve
-Ionic build
+-Ionic start;
+-Ionic serve;
+-Ionic build;
 
 
 
