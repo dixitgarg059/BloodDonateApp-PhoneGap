@@ -1,6 +1,6 @@
 {
-  "appId": "com.phonegap.DonateBloodDonateLifeApp",
-  "appName": "com.phonegap.DonateBloodDonateLifeApp",
+  "appId": "com.phonegap.AipifBloodDonorApp",
+  "appName": "com.phonegap.AipifBloodDonorApp",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AndroidLayouts">
-    <shared>
-      <config />
-    </shared>
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="2b952500-1222-481b-91f2-6a2495fbaad3" name="Default Changelist" comment="" />
+    <list default="true" id="6a712db6-0ce4-4dae-b600-dc9d0650b6a1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,12 +22,12 @@
     </system>
   </component>
   <component name="GenerateSignedApkSettings">
-    <option name="KEY_STORE_PATH" value="E:\android-app-key-store-folder\my_keystore.keystore" />
+    <option name="KEY_STORE_PATH" value="C:\Users\milyas\Downloads\my_keystore.keystore" />
     <option name="KEY_ALIAS" value="my_keystore" />
     <option name="REMEMBER_PASSWORDS" value="true" />
     <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
-  <component name="ProjectId" id="1f5Ry4sv7RsOhqwZZCRkvbZpwql" />
+  <component name="ProjectId" id="1hsG7OpNtpUZ0YjRBdzHgdj51XY" />
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="app" />
     <property name="ExportApk.ApkPath" value="E:\Learning-Projects\ionic-crashCourse\blood-donate-app\BloodDonateApp-PhoneGap\android\app" />
@@ -40,7 +35,7 @@
     <property name="ExportApk.SignV1" value="true" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="E:/android-app-key-store-folder/my_keystore.keystore" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/my_keystore.keystore" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -121,11 +116,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2b952500-1222-481b-91f2-6a2495fbaad3" name="Default Changelist" comment="" />
-      <created>1595506220865</created>
+      <changelist id="6a712db6-0ce4-4dae-b600-dc9d0650b6a1" name="Default Changelist" comment="" />
+      <created>1600792217828</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1595506220865</updated>
+      <updated>1600792217828</updated>
     </task>
     <servers />
   </component>

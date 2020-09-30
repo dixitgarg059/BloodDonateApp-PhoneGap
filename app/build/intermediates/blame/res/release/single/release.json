@@ -12,12 +12,12 @@
         "source": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\src\\main\\res\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
-    },
-    {
         "merged": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-land-xhdpi_splash.png.flat",
         "source": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\src\\main\\res\\drawable-land-xhdpi\\splash.png"
+    },
+    {
+        "merged": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\build\\intermediates\\res\\merged\\release\\mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_round.png"
     },
     {
         "merged": "E:\\Learning-Projects\\ionic-crashCourse\\blood-donate-app\\BloodDonateApp-PhoneGap\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-land-xxhdpi_splash.png.flat",

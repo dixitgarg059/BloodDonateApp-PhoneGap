@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.phonegap.DonateBloodDonateLifeApp"
+    package="com.phonegap.AipifBloodDonorApp"
     android:targetSandboxVersion="2"
-    android:versionCode="2"
+    android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -12,7 +12,6 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <!-- Network API -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -31,10 +30,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.phonegap.DonateBloodDonateLifeApp.MainActivity"
+            android:name="com.phonegap.AipifBloodDonorApp.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
             android:label="@string/title_activity_main"
             android:launchMode="singleTask"
@@ -56,7 +54,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.phonegap.DonateBloodDonateLifeApp.fileprovider"
+            android:authorities="com.phonegap.AipifBloodDonorApp.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -122,7 +120,7 @@
 
         <provider
             android:name="com.google.firebase.provider.FirebaseInitProvider"
-            android:authorities="com.phonegap.DonateBloodDonateLifeApp.firebaseinitprovider"
+            android:authorities="com.phonegap.AipifBloodDonorApp.firebaseinitprovider"
             android:exported="false"
             android:initOrder="100" />
 
